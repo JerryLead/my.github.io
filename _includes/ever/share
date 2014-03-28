@@ -1,0 +1,10 @@
+<div class="bshare-custom">
+   <span id="bshare-shareto">share</span>
+<a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+<a title="分享到微信" class="bshare-weixin" href="javascript:void(0);"></a>
+<a title="分享到人人网" class="bshare-renren"></a>
+<a title="分享到Twitter" class="bshare-twitter" href="javascript:void(0);"></a>
+<a title="分享到Facebook" class="bshare-facebook" href="javascript:void(0);"></a>
+
+<a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
+<span class="BSHARE_COUNT bshare-share-count" style="float: none;">26K</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=332fb4a6-ad05-4e68-87e3-3cf87240e773&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>

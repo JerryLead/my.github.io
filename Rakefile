@@ -5,7 +5,7 @@ require 'time'
 
 SOURCE = "."
 CONFIG = {
-  'version' => "0.3.0",
+  'version' => "0.2.13",
   'themes' => File.join(SOURCE, "_includes", "themes"),
   'layouts' => File.join(SOURCE, "_layouts"),
   'posts' => File.join(SOURCE, "_posts"),
@@ -40,18 +40,15 @@ module JB
   end #Path
 end #JB
 
-# Usage: rake post title="A Title" [date="2012-02-09"] [tags=[tag1,tag2]] [category="category"]
+# Usage: rake post tagline="A Title" [date="2012-02-09"]
 desc "Begin a new post in #{CONFIG['posts']}"
 task :post do
   abort("rake aborted: '#{CONFIG['posts']}' directory not found.") unless FileTest.directory?(CONFIG['posts'])
-  title = ENV["title"] || "new-post"
-  tags = ENV["tags"] || "[]"
-  category = ENV["category"] || ""
-  category = "\"#{category.gsub(/-/,' ')}\"" if !category.empty?
-  slug = title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+  tagline = ENV["tagline"] || "new-post"
+  slug = tagline.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   begin
     date = (ENV['date'] ? Time.parse(ENV['date']) : Time.now).strftime('%Y-%m-%d')
-  rescue => e
+  rescue Exception => e
     puts "Error - date format must be YYYY-MM-DD, please check you typed it correctly!"
     exit -1
   end
@@ -64,10 +61,11 @@ task :post do
   open(filename, 'w') do |post|
     post.puts "---"
     post.puts "layout: post"
-    post.puts "title: \"#{title.gsub(/-/,' ')}\""
+    post.puts 'title: ""'
+    post.puts "tagline: \"#{tagline.gsub(/-/,' ').gsub(/\b\w/) {$&.upcase}}\""
     post.puts 'description: ""'
-    post.puts "category: #{category}"
-    post.puts "tags: #{tags}"
+    # post.puts "category: "
+    post.puts "tags: []"
     post.puts "---"
     post.puts "{% include JB/setup %}"
   end
@@ -92,6 +90,7 @@ task :page do
     post.puts "---"
     post.puts "layout: page"
     post.puts "title: \"#{title}\""
+    post.puts 'tagline: ""'
     post.puts 'description: ""'
     post.puts "---"
     post.puts "{% include JB/setup %}"
@@ -100,7 +99,7 @@ end # task :page
 
 desc "Launch preview environment"
 task :preview do
-  system "jekyll serve -w"
+  system "jekyll --auto --server"
 end # task :preview
 
 # Public: Alias - Maintains backwards compatability for theme switching.
@@ -111,7 +110,7 @@ namespace :theme do
   # Public: Switch from one theme to another for your blog.
   #
   # name - String, Required. name of the theme you want to switch to.
-  #        The theme must be installed into your JB framework.
+  #        The the theme must be installed into your JB framework.
   #
   # Examples
   #
@@ -200,8 +199,8 @@ namespace :theme do
     # Mirror each file into the framework making sure to prompt if already exists.
     packaged_theme_files.each do |filename|
       file_install_path = File.join(JB::Path.base, filename)
-      if File.exist? file_install_path and ask("#{file_install_path} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
-        next
+      if File.exist? file_install_path
+        next if ask("#{file_install_path} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
       else
         mkdir_p File.dirname(file_install_path)
         cp_r File.join(packaged_theme_path, filename), file_install_path
