@@ -22,7 +22,7 @@ If you want to go to the home page, you can use `Backspace` or click `go back`.
 * Theme modified from [iEverX](https://github.com/iEverX/ieverx.github.com)
 
 #### Contact me?
-- Email:   ![](assets/images/email.png)
+- Email: ![alt text](assets/images/email.png)
 - Weibo:  [@JerryLead][weibo] 
 - Github: [JerryLead][github] 
 
